@@ -7,16 +7,17 @@ from cells import (
     Water,
     Teleport
 )
+from grid import Coordinate
 
-boardname = "board_simple.txt" #Change this to sys.argv later
+
 
 def read_lines(filename):
-    infile = open(boardname, 'r')
+    infile = open(filename, 'r')
     lines = [] #Create empty list of lines
     i = 0
     #Create list of lines with new line characters stripped
     while True:
-        line = str.strip(infile.readline())
+        line = infile.readline()
         if line == "":
             break
         lines.append(line)
@@ -36,15 +37,22 @@ def parse(lines):
         line = ch_list.copy() #Replace line with said list
         cell_list.append(line) #Append output list with said line
     
-    
     i = 0
+    num_of_X = 0
+    num_of_Y = 0
+    teleport_list = []
+    
     for row in cell_list:
         j = 0
         for character in row:
-            if character == "X":
+            if character == "\n":
+                row.remove(character)
+            elif character == "X":
                 cell_list[i][j] = Start()
+                num_of_X += 1
             elif character == "Y":
                 cell_list[i][j] = End()
+                num_of_Y += 1
             elif character == " ":
                 cell_list[i][j] = Air()
             elif character == "*":
@@ -55,10 +63,21 @@ def parse(lines):
                 cell_list[i][j] = Water()
             elif character == "Y":
                 cell_list[i][j] = End()
+            elif character == "1" or character == "2" or character == "3" or character == "4" or character == "5" or character == "6" or character == "7" or character == "8" or character == "9":
+                cell_list[i][j] = Teleport(character, i, j)
+                teleport_list.append(character)
             else:
-                character = Teleport
+                raise ValueError(f"Bad letter in configuration file: {character}.")
             j += 1
         i += 1
-    
+        
+    if num_of_X == 0 or num_of_X > 1:
+        raise ValueError(f"Expected 1 starting position, got {num_of_X}.")
+    if num_of_Y == 0 or num_of_Y > 1:
+        raise ValueError(f"Expected 1 ending position, got {num_of_Y}.")
+    for teleport_pad in range (1,10):
+        if teleport_list.count(str(teleport_pad)) % 2 == 1:
+            raise ValueError(f"Teleport pad {teleport_pad} does not have an exclusively matching pad.")
+
     #Fix this when finished cell classes
     return cell_list

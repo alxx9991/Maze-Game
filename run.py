@@ -1,15 +1,17 @@
 from game import Game
+from player import Player
 import os
 import sys
 
-test_game = Game("board_simple.txt")
-
+p = Player()
+test_game = Game(sys.argv[1], p)
 
 
 while test_game.won == False and test_game.lost == False:
-    print(test_game.player_position)
+    print(test_game.display)
+    print(f"Number of water buckets: {test_game.player_water_buckets}")
     movement_input = input("Make a move (wasd): ")
-    if movement_input == 'q':
-        test_game.lost = True
-        print("You lose cos u gave up")
-    test_game.game_move(movement_input)
+    os.system("clear")
+    p.move(movement_input)
+    
+    

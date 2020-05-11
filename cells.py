@@ -1,3 +1,4 @@
+import grid
 class Start:
     def __init__(self):
         self.display = 'X'
@@ -13,6 +14,7 @@ class End:
     def __str__(self):
         return self.display
     def step(self, game):
+        game.won = True
         pass
 
 
@@ -40,8 +42,11 @@ class Fire:
     def __str__(self):
         return self.display
     def step(self, game):
-        pass
-
+        if game.player_water_buckets > 0:
+            game.grid[game.player_row][game.player_col] = Air()
+            game.player_water_buckets -= 1
+        else:
+            game.lost = True
 
 class Water:
     def __init__(self):
@@ -49,13 +54,19 @@ class Water:
     def __str__(self):
         return self.display
     def step(self, game):
-        pass
+        game.player_water_buckets += 1
+        game.grid[game.player_row][game.player_col] = Air()
 
 
 class Teleport:
-    def __init__(self, number):
-        self.display = number  # You'll need to change this!
+    def __init__(self, character, i, j):
+        self.display = character
+        self.row = i
+        self.col = j
     def __str__(self):
         return self.display
     def step(self, game):
-        pass
+        game.player_coordinate.row = grid.other_teleport(game.grid, self.display, self.row, self.col).get_row()
+        game.player_coordinate.col = grid.other_teleport(game.grid, self.display, self.row, self.col).get_col()
+        
+
