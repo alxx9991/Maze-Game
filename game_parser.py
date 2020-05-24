@@ -8,11 +8,15 @@ from cells import (
     Teleport
 )
 from grid import Coordinate
-
+import sys
 
 
 def read_lines(filename):
-    infile = open(filename, 'r')
+    try:
+        infile = open(filename, 'r')
+    except FileNotFoundError:
+        print(f"{filename} does not exist!")
+        sys.exit()
     lines = [] #Create empty list of lines
     i = 0
     #Create list of lines with new line characters stripped

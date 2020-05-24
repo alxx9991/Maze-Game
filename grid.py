@@ -9,8 +9,8 @@ def grid_to_string(grid, player):
         output_row_list.append("\n")
         output_list.append(output_row_list)
         i += 1
-    if player.row == None:
-        output_list[game.player_row][game.player_col] = "A"
+    if not player.row:
+        output_list[grid_start(grid).get_row()][grid_start(grid).get_col()] = "A"
     else:
         output_list[player.row][player.col] = "A"
     
@@ -18,6 +18,12 @@ def grid_to_string(grid, player):
     for row in output_list:
         for cell in row:
             output_string += cell
+    
+    if player.num_water_buckets == 1:
+        output_string += '\n' + f"You have {player.num_water_buckets} water bucket."
+    else:
+        output_string += '\n' + f"You have {player.num_water_buckets} water buckets."
+
     return output_string
 
 def grid_start(grid): #Looks for the starting cell and returns its coordinates 
@@ -47,7 +53,7 @@ def other_teleport(grid, number, own_row, own_col): #Looks for the other telepor
     for row in grid:
         j = 0
         for cell in row:
-            if str(cell) == number and (i != own_row and j != own_col):
+            if str(cell) == number and (not(i == own_row and j == own_col)):
                 teleport_i = i
                 teleport_j = j
             j += 1
@@ -66,7 +72,6 @@ def is_wall(row, col, grid): #Determine if given row and column coordinate conta
     i = row
     j = col
     if str(grid[i][j]) == "*":
-        print("Theres a wall here! ur walking into a wall") #DELETE
         return True
     else:
         return False

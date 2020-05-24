@@ -15,57 +15,69 @@ class Game:
         self.player_col = self.player_coordinate.get_col()
         self.player_row = self.player_coordinate.get_row()
         self.player_water_buckets = 0
-        self.display = grid_to_string(self.grid, self.player)
+        self.found_water = False
+        self.display = self.display = grid_to_string(self.grid, self.player)
+        self.hit_wall = False
+        self.fire_extinguished = False
+        self.has_teleported = False
+        self.invalid_move = False
+        #Initialize player attributes
+        self.player.game = self
+        self.player.coordinate = self.player_coordinate
+        self.player.col = self.player_col
+        self.player.row = self.player_row
 
         
 
 
     def game_move(self, move): #Game move will receive player input. Check if move was valid. If it was, it will update the game accordingly, then update the player class.
 
-        #Implement move checking - check for edge of the map, then check for wall.
-        invalid_move = False #Assume move to be valid unless proven otherwise
-        hit_wall = False #Check if we hit a wall
+        #Implement move checking - check for edge of the map, then check for wall. 
+        self.hit_wall = False #Check if we hit a wall
+        self.found_water = False #Check if we found water
+        self.fire_extinguished = False #Che
+        self.has_teleported = False
+        self.invalid_move = False
         if move == "a":
+            print("Moved a")
             if self.player_col == 0: #Check if we are currently on the left most column
-                invalid_move = True
-                print("Ur walking off the map")#DELETE
+                self.hit_wall = True
+                
                 
             elif is_wall(self.player_row, self.player_col - 1, self.grid) == True: #Check if the intended position is a wall
-                invalid_move = True
-                hit_wall = True
+                self.hit_wall = True
             else:
                 self.player_coordinate.col -= 1
 
         elif move == "d":
             if self.player_col == grid_length(self.grid)-1: #Check if we are currently on the right most column
-                invalid_move = True
-                print("Ur walking off the map")
+                self.hit_wall = True
+                
                 
             elif is_wall(self.player_row, self.player_col + 1, self.grid) == True:
-                invalid_move = True
-                hit_wall = True
+                self.hit_wall = True
             else:
                 self.player_coordinate.col += 1
 
         elif move == "w":
             if self.player_row == 0: #Check if we are currently on the top row
-                invalid_move = True
-                print("Ur walking off the map")#DELETE
+                self.hit_wall = True
+                
                 
             elif is_wall(self.player_row - 1, self.player_col, self.grid) == True:
-                invalid_move = True
-                hit_wall = True
+                
+                self.hit_wall = True
             else:
                 self.player_coordinate.row -= 1
 
         elif move == "s":
             if self.player_row == grid_height(self.grid) -1: #Check if we are currently on the bottom row
-                invalid_move = True
-                print("Ur walking off the map") #DELETE
+                self.hit_wall = True
+                
                 
             elif is_wall(self.player_row + 1, self.player_col, self.grid) == True:
-                invalid_move = True
-                hit_wall = True
+                
+                self.hit_wall = True
             else:
                 self.player_coordinate.row += 1
 
@@ -73,10 +85,12 @@ class Game:
             pass
 
         elif move == "q":
-            self.lost = True
+            pass
 
         else:
-            print ("Invalid input") #Fix this to a proper error message
+            self.invalid_move = True
+
+        
         
         
         
@@ -91,7 +105,7 @@ class Game:
         
 
         #Step function to activate cell - prevents teleport by walking into a wall
-        if hit_wall == False:
+        if self.hit_wall == False:
             self.grid[self.player_row][self.player_col].step(self)
 
         #Update game player_column and row in case of a teleport
@@ -105,12 +119,10 @@ class Game:
         self.player.col = self.player.coordinate.get_col()
 
 
-
-        self.display = grid_to_string(self.grid, self.player)
-
         #Update player water buckets.
         self.player.num_water_buckets = self.player_water_buckets
-        
+
+        self.display = grid_to_string(self.grid, self.player)
 
 
 

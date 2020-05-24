@@ -45,6 +45,7 @@ class Fire:
         if game.player_water_buckets > 0:
             game.grid[game.player_row][game.player_col] = Air()
             game.player_water_buckets -= 1
+            game.fire_extinguished = True
         else:
             game.lost = True
 
@@ -56,6 +57,7 @@ class Water:
     def step(self, game):
         game.player_water_buckets += 1
         game.grid[game.player_row][game.player_col] = Air()
+        game.found_water = True
 
 
 class Teleport:
@@ -68,5 +70,5 @@ class Teleport:
     def step(self, game):
         game.player_coordinate.row = grid.other_teleport(game.grid, self.display, self.row, self.col).get_row()
         game.player_coordinate.col = grid.other_teleport(game.grid, self.display, self.row, self.col).get_col()
-        
+        game.has_teleported = True
 
