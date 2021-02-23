@@ -1,4 +1,5 @@
 
+#Takes a grid and a player, converts it into a string that is displayable
 def grid_to_string(grid, player):
     output_list = []
     i = 0
@@ -76,8 +77,7 @@ def is_wall(row, col, grid): #Determine if given row and column coordinate conta
     else:
         return False
 
-
-
+#Coordinate class to keep the coordinate things organised
 class Coordinate:
     def __init__(self, row, col):
         self.col = col

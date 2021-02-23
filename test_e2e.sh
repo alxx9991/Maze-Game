@@ -9,12 +9,12 @@ count=0 # number of test cases run so far
 for test in tests_e2e/*.in; do
     name=$(basename $test .in)
     expected=tests_e2e/$name.out
-
+    config=tests_e2e/$name.config
     # Change this command to run your program!
     # You will need to read the code here and figure out how to pass in your config yourself!
-    python3 quadratic.py < $test | diff - $expected || echo "Test $name: failed!\n"
-
+    python3 run.py $config < $test | diff - $expected || echo "Test $name: failed!\n"
+    
     count=$((count+1))
 done
 
-echo "Finished running $count tests!"
+echo "Finished running $count e2e tests!"

@@ -18,5 +18,9 @@ test_game()
 test_grid()
 test_parser()
 
+print("Completed unit tests!")
+print("")
 # Run the e2e script
 subprocess.call(['./test_e2e.sh'])
+
+print("All tests completed!")

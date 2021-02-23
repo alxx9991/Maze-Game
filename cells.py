@@ -1,12 +1,14 @@
 import grid
+
+#Contains all the cell classes
+
 class Start:
     def __init__(self):
-        self.display = 'X'
+        self.display = 'X' #What the cell displays when the grid is printed out
     def __str__(self):
         return self.display
-    def step(self, game):
-        pass
-
+    def step(self, game): #How the cell affects the game if the cell is stepped on
+        pass 
 
 class End:
     def __init__(self):
@@ -17,7 +19,6 @@ class End:
         game.won = True
         pass
 
-
 class Air:
     def __init__(self):
         self.display = ' '
@@ -26,7 +27,6 @@ class Air:
     def step(self, game):
         pass
 
-
 class Wall:
     def __init__(self):
         self.display = '*'
@@ -34,7 +34,6 @@ class Wall:
         return self.display
     def step(self, game):
         pass
-
 
 class Fire:
     def __init__(self):
@@ -58,7 +57,6 @@ class Water:
         game.player_water_buckets += 1
         game.grid[game.player_row][game.player_col] = Air()
         game.found_water = True
-
 
 class Teleport:
     def __init__(self, character, i, j):

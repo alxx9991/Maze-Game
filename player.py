@@ -1,6 +1,6 @@
 from grid import *
 from game_parser import read_lines
-class Player:
+class Player: #Player attributes will be properly initialized by the game object
     def __init__(self):
         self.display = 'A'
         self.game = None
@@ -9,9 +9,7 @@ class Player:
         self.row = None
         self.col = None
         self.num_water_buckets = 0
-        self.game = None
-        self.grid = None
-
+    
     def move(self, move):
         self.game.game_move(move)
         

@@ -1,102 +1,77 @@
-
 from game import Game
 from player import Player
-import os
 import sys
-from grid import Coordinate
-
+from grid import *
+from solver_functions import *
 
 def solve(mode):
     #Initialize Game
-    p = Player()
-    g = Game(sys.argv[1], p)
-    p.link_game = g
+    player = Player()
+    game = Game(sys.argv[1], player)
+    player.link_game = game
     #Initialize empty lists
-    visited = [str(g.player_coordinate)]
-    cell_list = []
-    move_list = []
+    game_state_list = [GameState(game)] #Store game states to visit
+    visited_list = [GameState(game)] #Store visited game states
+    solutions_list = [] #Stores a list of solutions
+    solution_found = False
 
+    #Solving loop
     while True:
-        g.game_move("a")
-        if g.hit_wall == True or g.lost == True or str(Coordinate(g.player_row, g.player_col)) in visited:
-            print("Cant go a")
-            pass
-        else:
-            g.game_move("d")
-            cell_list.append("a")
-            visited.append(str(Coordinate(g.player_row, g.player_col-1)))
-        
-        g.game_move("d")
-        if g.hit_wall == True or g.lost == True or str(Coordinate(g.player_row, g.player_col+1)) in visited:
-            print("Can't go d")
-        else:
-            g.game_move("a")
-            cell_list.append("d")
-            visited.append(str(Coordinate(g.player_row, g.player_col+1)))
-
-        g.game_move("s")
-        if g.hit_wall == True or g.lost == True or str(Coordinate(g.player_row, g.player_col)) in visited:
-            print("Can't go s")
-            pass
-        else:
-            g.game_move("w")
-            cell_list.append("s")
-            visited.append(str(Coordinate(g.player_row+1, g.player_col)))
-
-        g.game_move("w")
-        if g.hit_wall == True or g.lost == True or str(Coordinate(g.player_row, g.player_col)) in visited:
-            print("Cant go w")
-            pass
-        else:
-            g.game_move("s")
-            cell_list.append("w")
-            visited.append(str(Coordinate(g.player_row-1, g.player_col)))
-        
-        if len(cell_list) == 0:
-            print("no solution")
+        if len(game_state_list) == 0:
             break
         
-        if g.won == True:
-            print("solution found")
+        #Take the first object in the list if using BFS, take the last if using DFS.
+        if mode == ("BFS"):
+            game_state = game_state_list[0]
+            game_state_list = game_state_list[1:]
+        elif mode == ("DFS"):
+            game_state = game_state_list[-1]
+            game_state_list = game_state_list[:-1]
         
-        cell = cell_list[0]
-        cell_list = cell_list[1:]
-
-        print(g.display)
-        print(g.player_coordinate)
-        print(f"Computer input: {cell}")
-        p.move(cell)
-        move_list.append(cell)
-
-        ###Printing in game messages
-        if g.hit_wall == True:
-            print("You walked into a wall. Oof!")
-            print("")
+        #Change current game state to the one picked out from above
+        game_state.resume_game(game)
         
-        if g.found_water == True:
-            print("Thank the Honourable Furious Forest, you've found a bucket of water!")
-            print("")
-
-        if g.fire_extinguished == True:
-            print("With your strong acorn arms, you throw a water bucket at the fire. You acorn roll your way through the extinguished flames!")
-            print("")
-        if g.has_teleported == True:
-            print("Whoosh! The magical gates break Physics as we know it and opens a wormhole through space and time.")
-        ### IN GAME MESSAGES ^
-
+        #Record solution if game is won
+        if game.won == True:
+            solutions_list.append(copy_list(game.moves_made))
+            solution_found = True
         
-        print("")
-        print(f"Moves made are {move_list}.")
-        print(f"Next moves lined up are {cell_list}")
-        input()
+        #Find all the possible neighbouring moves that the game could make from current game state
+        game_state.neighbours = find_neighbours(game, game_state)
+        for neighbour in game_state.neighbours:
+            if game_state_visited(neighbour, visited_list) == False:
+                visited_list.append(neighbour)
+                game_state_list.append(neighbour)
+        
+    #If a solution was found, print out number of moves, moves made and return true
+    if solution_found == True:
+        shortest_solution = []
+        shortest_solution_number = len(solutions_list[0])
+        for solution in solutions_list:
+            if len(solution) <= shortest_solution_number:
+                shortest_solution_number = len(solution)
+                shortest_solution = solution
+        print(f"Path has {shortest_solution_number} moves.")
+        moves_made_str = ""
+        i = 0
+        for move in shortest_solution:
+            i += 1
+            if i < len(shortest_solution):
+                moves_made_str += " " + move + ","
+            else:
+                moves_made_str += " " + move
+
+        print(f"Path:{moves_made_str}")
+        return True
+    else:
+        return False
+
+#If there were no possible paths, print that
+if __name__ == "__main__":
+    found_solution = solve(sys.argv[2])
+    if found_solution == True:
+        pass
+    else:
+        print("There is no possible path.")
 
 
-# if __name__ == "__main__":
-#     solution_found = False
-#     if solution_found:
-#         pass
-#         # Print your solution...
-#     else:
-#         print("There is no possible path.")
-
-solve("BFS")

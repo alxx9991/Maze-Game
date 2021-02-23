@@ -28,8 +28,6 @@ def read_lines(filename):
         i+=1
     
     return parse(lines) #Use parse function to turn list of lines into 2D list of cells
-        
-
 
 def parse(lines):
     cell_list = [] #Output list of cells - 2D cell list
@@ -46,6 +44,7 @@ def parse(lines):
     num_of_Y = 0
     teleport_list = []
     
+    #For each cell, look at the cell character and replace it with the correct cell object
     for row in cell_list:
         j = 0
         for character in row:
@@ -74,14 +73,13 @@ def parse(lines):
                 raise ValueError(f"Bad letter in configuration file: {character}.")
             j += 1
         i += 1
-        
-    if num_of_X == 0 or num_of_X > 1:
+    
+    #Checking for incorrect maze configurations
+    if num_of_X == 0 or num_of_X > 1: #Too many Xs
         raise ValueError(f"Expected 1 starting position, got {num_of_X}.")
-    if num_of_Y == 0 or num_of_Y > 1:
+    if num_of_Y == 0 or num_of_Y > 1: #Too many Ys
         raise ValueError(f"Expected 1 ending position, got {num_of_Y}.")
-    for teleport_pad in range (1,10):
-        if teleport_list.count(str(teleport_pad)) % 2 == 1:
+    for teleport_pad in range (1,10): #Teleport pads don't come in pairs
+        if teleport_list.count(str(teleport_pad)) != 2 and teleport_list.count(str(teleport_pad)) != 0:
             raise ValueError(f"Teleport pad {teleport_pad} does not have an exclusively matching pad.")
-
-    #Fix this when finished cell classes
     return cell_list

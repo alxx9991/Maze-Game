@@ -3,22 +3,23 @@ from player import Player
 import os
 import sys
 
+#Initialize the player and game
 p = Player()
 g = Game(sys.argv[1], p)
-p.link_game = g
 
 
 while True:
+    #Display the game
     print(g.display)
     print("")
+
+    #Display in-game messages
     if g.hit_wall == True:
         print("You walked into a wall. Oof!")
         print("")
-    
     if g.found_water == True:
         print("Thank the Honourable Furious Forest, you've found a bucket of water!")
         print("")
-
     if g.fire_extinguished == True:
         print("With your strong acorn arms, you throw a water bucket at the fire. You acorn roll your way through the extinguished flames!")
         print("")
@@ -28,14 +29,16 @@ while True:
     if g.invalid_move == True:
         print("Please enter a valid move (w, a, s, d, e, q).")
         print("")
+
+    #If won, print out number of moves, the moves made and the win message
     if g.won == True:
         print("")
         print(f"You conquer the treacherous maze set up by the Fire Nation and reclaim the Honourable Furious Forest Throne, restoring your hometown back to its former glory of rainbow and sunshine! Peace reigns over the lands.")
         print("")
         if len(g.moves_made) == 1:
-            print(f"You made {g.moves} move.")
+            print(f"You made {g.num_moves} move.")
         else:
-            print(f"You made {g.moves} moves.")
+            print(f"You made {g.num_moves} moves.")
         moves_made_str = ""
         i = 0
         for move in g.moves_made:
@@ -51,6 +54,8 @@ while True:
         print("")
         print("=====================\n====== YOU WIN! =====\n=====================")
         break
+
+    #If lost, print out the print out number of moves, the moves made and the loss message
     if g.lost == True:
         print("")
         print("You step into the fires and watch your dreams disappear :(.")
@@ -58,9 +63,9 @@ while True:
         print("The Fire Nation triumphs! The Honourable Furious Forest is reduced to a pile of ash and is scattered to the winds by the next storm... You have been roasted.")
         print("")
         if len(g.moves_made) == 1:
-            print(f"You made {g.moves} move.")
+            print(f"You made {g.num_moves} move.")
         else:
-            print(f"You made {g.moves} moves.")
+            print(f"You made {g.num_moves} moves.")
         moves_made_str = ""
         i = 0
         for move in g.moves_made:
@@ -76,16 +81,24 @@ while True:
         print("")
         print("=====================\n===== GAME OVER =====\n=====================")
         break
+    
+    #Get user input
     movement_input = input("Input a move: ")
+
+    #Can uncomment the below to run while clearing previous game displays
     #os.system("clear")
+
+    #Take user input, quit if 'q', else pass it to the player object
     if movement_input == "q":
         print("")
         print("Bye!")
         break
     p.move(movement_input.lower())
+
+    #Record number of moves and moves made
     if g.hit_wall == True or g.invalid_move == True:
         continue #skip recording moves if we hit a wall or make an invalid move
-    g.moves += 1
+    g.num_moves += 1
     g.moves_made.append(movement_input.lower())
     
     
