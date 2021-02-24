@@ -4,7 +4,7 @@ import grid
 
 class Start:
     def __init__(self):
-        self.display = 'X' #What the cell displays when the grid is printed out
+        self.display = '\U0001F6A9' #What the cell displays when the grid is printed out
     def __str__(self):
         return self.display
     def step(self, game): #How the cell affects the game if the cell is stepped on
@@ -12,7 +12,7 @@ class Start:
 
 class End:
     def __init__(self):
-        self.display = 'Y'
+        self.display = '\U0001F3C1'
     def __str__(self):
         return self.display
     def step(self, game):
@@ -21,7 +21,7 @@ class End:
 
 class Air:
     def __init__(self):
-        self.display = ' '
+        self.display = '  '
     def __str__(self):
         return self.display
     def step(self, game):
@@ -29,7 +29,7 @@ class Air:
 
 class Wall:
     def __init__(self):
-        self.display = '*'
+        self.display = '\U0001F7E6'
     def __str__(self):
         return self.display
     def step(self, game):
@@ -37,7 +37,7 @@ class Wall:
 
 class Fire:
     def __init__(self):
-        self.display = 'F'
+        self.display = '\U0001F525'
     def __str__(self):
         return self.display
     def step(self, game):
@@ -50,7 +50,7 @@ class Fire:
 
 class Water:
     def __init__(self):
-        self.display = 'W'
+        self.display = '\U0001F4A7'
     def __str__(self):
         return self.display
     def step(self, game):
@@ -60,7 +60,7 @@ class Water:
 
 class Teleport:
     def __init__(self, character, i, j):
-        self.display = character
+        self.display = character + " "
         self.row = i
         self.col = j
     def __str__(self):

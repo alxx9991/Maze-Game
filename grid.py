@@ -11,9 +11,9 @@ def grid_to_string(grid, player):
         output_list.append(output_row_list)
         i += 1
     if not player.row:
-        output_list[grid_start(grid).get_row()][grid_start(grid).get_col()] = "A"
+        output_list[grid_start(grid).get_row()][grid_start(grid).get_col()] = '\U0001F64A'
     else:
-        output_list[player.row][player.col] = "A"
+        output_list[player.row][player.col] = '\U0001F64A'
     
     output_string = ""
     for row in output_list:
@@ -35,7 +35,7 @@ def grid_start(grid): #Looks for the starting cell and returns its coordinates
     for row in grid:
         j = 0
         for cell in row:
-            if str(cell) == "X":
+            if str(cell) == '\U0001F6A9':
                 start_i = i
                 start_j = j
                 number_of_Xs +=1
