@@ -1,6 +1,8 @@
 from game import Game
 from player import Player
 import sys
+import os
+import time
 from grid import *
 from solver_functions import *
 
@@ -17,8 +19,12 @@ def solve(mode):
 
     #Solving loop
     while True:
+        os.system("clear")
         if len(game_state_list) == 0:
             break
+
+        print(game.display)
+        time.sleep(0.05)
         
         #Take the first object in the list if using BFS, take the last if using DFS.
         if mode == ("BFS"):

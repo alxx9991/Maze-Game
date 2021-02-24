@@ -13,6 +13,7 @@ import sys
 
 def read_lines(filename):
     try:
+        filename = "boards/" + filename
         infile = open(filename, 'r')
     except FileNotFoundError:
         print(f"{filename} does not exist!")

@@ -10,30 +10,31 @@ g = Game(sys.argv[1], p)
 
 while True:
     #Display the game
+    os.system("clear")
     print(g.display)
     print("")
 
     #Display in-game messages
     if g.hit_wall == True:
-        print("You walked into a wall. Oof!")
+        print("You walked into a wall.")
         print("")
     if g.found_water == True:
-        print("Thank the Honourable Furious Forest, you've found a bucket of water!")
+        print("You've found a bucket of water!")
         print("")
     if g.fire_extinguished == True:
-        print("With your strong acorn arms, you throw a water bucket at the fire. You acorn roll your way through the extinguished flames!")
+        print("You have used a bucket of water to extinguish the flames!")
         print("")
     if g.has_teleported == True:
-        print("Whoosh! The magical gates break Physics as we know it and opens a wormhole through space and time.")
+        print("Teleport successful!")
         print("")
     if g.invalid_move == True:
-        print("Please enter a valid move (w, a, s, d, e, q).")
+        print("Invalid move. Enter a valid move: (w, a, s, d, e, q).")
         print("")
 
     #If won, print out number of moves, the moves made and the win message
     if g.won == True:
         print("")
-        print(f"You conquer the treacherous maze set up by the Fire Nation and reclaim the Honourable Furious Forest Throne, restoring your hometown back to its former glory of rainbow and sunshine! Peace reigns over the lands.")
+        print(f"You win!")
         print("")
         if len(g.moves_made) == 1:
             print(f"You made {g.num_moves} move.")
@@ -58,9 +59,9 @@ while True:
     #If lost, print out the print out number of moves, the moves made and the loss message
     if g.lost == True:
         print("")
-        print("You step into the fires and watch your dreams disappear :(.")
+        print("You have stepped into fire and died.")
         print("")
-        print("The Fire Nation triumphs! The Honourable Furious Forest is reduced to a pile of ash and is scattered to the winds by the next storm... You have been roasted.")
+        print("You have failed your mission.")
         print("")
         if len(g.moves_made) == 1:
             print(f"You made {g.num_moves} move.")
