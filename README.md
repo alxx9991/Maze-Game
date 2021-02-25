@@ -24,9 +24,9 @@ Water space will give you a water bucket, which can be used to extinguish a flam
 Teleport spaces are represented by numbers, which come in pairs. Landing on a teleport takes you to the opposite corresponding number. Pressing "E" on a teleport pad will take you back.
 
 ## Solver Mode Instructions
-The solver can use either a DFS or BFS algorithm to solve the maze.  
+The solver can use either a DFS or BFS algorithm to solve the maze.    
 Type the command:  
-python3 solver.py {board_name}.txt {DFS/BFS}  
+python3 solver.py {board_name}.txt {DFS/BFS}    
 DFS will be less memory intensive, but may not always produce the shortest path.  
 BFS will use more memory, especially for longer boards, however it always produces the shortest path.  
 The solver has been slowed down on purpose to allow a visual representation of solving the maze. Comment out the "time.sleep()" line to increase solving speed.
