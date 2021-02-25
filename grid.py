@@ -72,7 +72,7 @@ def grid_height(grid): #Returns an integer representing the number of rows
 def is_wall(row, col, grid): #Determine if given row and column coordinate contains a wall.
     i = row
     j = col
-    if str(grid[i][j]) == "*":
+    if str(grid[i][j]) == '\U0001F7E6':
         return True
     else:
         return False

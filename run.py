@@ -59,9 +59,7 @@ while True:
     #If lost, print out the print out number of moves, the moves made and the loss message
     if g.lost == True:
         print("")
-        print("You have stepped into fire and died.")
-        print("")
-        print("You have failed your mission.")
+        print("You have stepped into fire without water and died.")
         print("")
         if len(g.moves_made) == 1:
             print(f"You made {g.num_moves} move.")

@@ -18,12 +18,23 @@ def solve(mode):
     solution_found = False
 
     #Solving loop
+
+    n = 0
     while True:
-        os.system("clear")
+        n += 1
+        
         if len(game_state_list) == 0:
+            os.system("clear")
+            print(f"Solving complete. {n} possible game states examined.")
+            print()
+            print(game.display)
             break
 
+        os.system("clear")
+        print("Solving" + (n%10)*".")
+        print()
         print(game.display)
+        
         time.sleep(0.05)
         
         #Take the first object in the list if using BFS, take the last if using DFS.
